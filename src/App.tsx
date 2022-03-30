@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './index.css'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import HomePage from './pages/HomePage'
@@ -13,28 +13,29 @@ import CartPage from './pages/Checkout/Cart'
 import CheckoutPage from './pages/Checkout/Checkout'
 import LayoutAdmin from './pages/layouts/LayoutAdmin'
 import Dashboard from './pages/Admin/Dashboard'
+import axios from 'axios'
 function App() {
-
   return (
+
     <div className="App">
       <Routes>
         <Route path='/' element={<LayoutWebsite />}>
           <Route index element={<HomePage />} />
           <Route path='/Shops'>
             <Route index element={<ShopPage />} />
-            <Route path=':id' element={<DetailProduct/>}/>
+            <Route path=':id' element={<DetailProduct />} />
           </Route>
           <Route path='/Blogs'>
             <Route index element={<BlogsPage />} />
-            <Route path=':id' element={<DetailBlog/>}/>
+            <Route path=':id' element={<DetailBlog />} />
           </Route>
           <Route path='/Cart' >
-              <Route index element={<CartPage />}/>
-              <Route path='Checkout' element={<CheckoutPage />} />
+            <Route index element={<CartPage />} />
+            <Route path='Checkout' element={<CheckoutPage />} />
           </Route>
         </Route>
-        <Route path='admin' element={<LayoutAdmin/>}>
-            <Route index element={<Dashboard/>}/>
+        <Route path='admin' element={<LayoutAdmin />}>
+          <Route index element={<Dashboard />} />
         </Route>
         <Route path='signin' element={<Signin />} />
         <Route path='signup' element={<Signup />} />

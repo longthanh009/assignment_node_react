@@ -28,6 +28,7 @@ const SiderBarAdmin = () => {
                             </svg>
                             <span className="ml-4">Categoryes</span>
                         </a>
+                        
                     </li>
                     <li className="relative px-6 py-3">
                         <a className="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200" href="cards.html">
