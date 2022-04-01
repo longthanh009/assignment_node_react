@@ -14,9 +14,14 @@ import CheckoutPage from './pages/Checkout/Checkout'
 import LayoutAdmin from './pages/layouts/LayoutAdmin'
 import Dashboard from './pages/Admin/Dashboard'
 import axios from 'axios'
+import ListCate from './pages/Admin/Category/List'
+import CreatCategory from './pages/Admin/Category/Created'
+import { useDispatch, useSelector } from 'react-redux'
+import UpdateCategory from './pages/Admin/Category/Update'
+
+
 function App() {
   return (
-
     <div className="App">
       <Routes>
         <Route path='/' element={<LayoutWebsite />}>
@@ -36,6 +41,11 @@ function App() {
         </Route>
         <Route path='admin' element={<LayoutAdmin />}>
           <Route index element={<Dashboard />} />
+          <Route path='categorys'>
+            <Route index element={<ListCate />} />
+            <Route path='create' element={<CreatCategory />} />
+            <Route path=':id/edit' element={<UpdateCategory />} />
+          </Route>
         </Route>
         <Route path='signin' element={<Signin />} />
         <Route path='signup' element={<Signup />} />
