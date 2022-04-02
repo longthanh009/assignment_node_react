@@ -4,7 +4,7 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import { categoryType } from '../../../types/categoryType'
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux'
-import {addCategory} from "../../../features/categorySlice"
+import {addCategory} from "../../../features/category/categorySlice"
 
 const CreatCategory = () => {
     const dispatch = useDispatch()

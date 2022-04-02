@@ -4,7 +4,7 @@ import { categoryType } from '../../../types/categoryType';
 import { useNavigate, useParams } from "react-router-dom";
 import { read } from '../../../api/categoryApi';
 import { useDispatch } from 'react-redux';
-import { updateCategory } from '../../../features/categorySlice';
+import { updateCategory } from '../../../features/category/categorySlice';
 
 const UpdateCategory = () => {
     const dispatch = useDispatch();
