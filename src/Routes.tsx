@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import UpdateCategory from './pages/Admin/Category/Update'
 import ListProducts from './pages/Admin/Products/List'
 import CreatProduct from './pages/Admin/Products/Creat'
+import UpdateProduct from './pages/Admin/Products/Update'
 
 
 function RoutePage() {
@@ -42,7 +43,8 @@ function RoutePage() {
                     </Route>
                 </Route>
                 <Route path='admin' element={<LayoutAdmin />}>
-                    <Route index element={<Dashboard />} />
+                    <Route index element={<Navigate to="Dashboard" />} />
+                    <Route path='Dashboard' element={<Dashboard />} />
                     <Route path='categorys'>
                         <Route index element={<ListCate />} />
                         <Route path='create' element={<CreatCategory />} />
@@ -51,7 +53,7 @@ function RoutePage() {
                     <Route path='products'>
                         <Route index element={<ListProducts />} />
                         <Route path='create' element={<CreatProduct />} />
-                        <Route path=':id/edit' element={<UpdateCategory />} />
+                        <Route path=':id/edit' element={<UpdateProduct />} />
                     </Route>
                 </Route>
                 <Route path='signin' element={<Signin />} />

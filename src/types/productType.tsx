@@ -3,5 +3,8 @@ export type productType = {
     name : string,
     price: number,
     img : string,
-    description : string
+    category: string,
+    quantity : number,
+    description : string,
+    updatedAt? :string
 }

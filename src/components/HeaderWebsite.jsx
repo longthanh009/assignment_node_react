@@ -16,11 +16,21 @@ const HeaderWebtste = () => {
                     <div className="hidden md:flex md:items-center md:w-auto w-[40%] order-3 md:order-1" id="menu">
                         <nav>
                             <ul className="md:flex items-center justify-between text-base text-gray-700 pt-4 md:pt-0">
-                                <li><NavLink className="inline-block no-underline hover:text-black hover:underline py-2 px-4" to="/">Home</NavLink></li>
-                                <li><NavLink className="inline-block no-underline hover:text-black hover:underline py-2 px-4" to="/Shops">Shop</NavLink></li>
-                                <li><NavLink className="inline-block no-underline hover:text-black hover:underline py-2 px-4" to="/Blogs">Blogs</NavLink></li>
-                                <li><NavLink className="inline-block no-underline hover:text-black hover:underline py-2 px-4" to="#">Contact</NavLink></li>
-                                <li><NavLink className="inline-block no-underline hover:text-black hover:underline py-2 px-4" to="#">About</NavLink></li>
+                                <li>
+                                    <NavLink className="inline-block no-underline hover:text-black hover:underline py-2 px-4" to="/">Home</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink className="inline-block no-underline hover:text-black hover:underline py-2 px-4" to="/Shops">Shop</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink className="inline-block no-underline hover:text-black hover:underline py-2 px-4" to="/Blogs">Blogs</NavLink>
+                                </li>
+                                {/* <li>
+                                    <NavLink className="inline-block no-underline hover:text-black hover:underline py-2 px-4" to="/">Contact</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink className="inline-block no-underline hover:text-black hover:underline py-2 px-4" to="/">About</NavLink>
+                                </li> */}
                             </ul>
                         </nav>
                     </div>

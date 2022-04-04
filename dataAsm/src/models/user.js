@@ -22,12 +22,12 @@ const userSchema = new Schema({
         minlength: 6,
         required: true
     },
+    salt: {
+        type: String
+    },
     role: {
         type: Number,
         default: 0
-    }, 
-    salt: {
-        type: String
     }
 }, { timestamps: true })
 userSchema.pre('save', function (next) {
@@ -42,7 +42,7 @@ userSchema.methods = {
     hashPassword(password) {
         if (!password) return
         try {
-            return createHmac("sha265", this.salt).update(password).digest('hex')
+            return createHmac("sha256", this.salt).update(password).digest('hex');
         } catch (error) {
             console.log(error)
         }

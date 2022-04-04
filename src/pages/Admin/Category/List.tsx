@@ -1,17 +1,17 @@
 
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { Link, NavLink } from 'react-router-dom';
 import { categoryType } from '../../../types/categoryType';
 import { getCategorys, removeCategory } from "../../../features/category/categorySlice";
 
 const ListCate = () => {
-    const dispatch = useDispatch();
-    const categorys = useSelector((state) => state.categorys.value)
+    const dispatch = useAppDispatch();
+    const categorys = useAppSelector((state) => state.categorys.value)
     useEffect(() => {
         dispatch(getCategorys())
     }, [])
-    const removeCate = async (id: String) => {
+    const removeCate = async (id: string) => {
         let confim = confirm("Bạn có muốn xoá không ?");
         if (confim) {
             await dispatch(removeCategory(id));
@@ -34,7 +34,7 @@ const ListCate = () => {
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                        {categorys?.map((item, index) => {
+                        {categorys?.map((item : categoryType, index) => {
                             return (
                                 <tr key={index} className="text-gray-700 dark:text-gray-400">
                                     <td className="px-4 py-3 text-sm">

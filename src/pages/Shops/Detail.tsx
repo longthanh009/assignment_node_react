@@ -28,7 +28,16 @@ const DetailProduct = () => {
             <section className="text-gray-700 body-font overflow-hidden bg-white">
                 <div className="container px-5 py-24 mx-auto">
                     <div className="lg:w-4/5 mx-auto flex flex-wrap">
-                        <img alt="ecommerce" className="lg:w-1/2 w-full object-cover object-center rounded border border-gray-200" src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg" />
+                        <div className='lg:w-1/2 w-full'>
+                            <img alt="ecommerce" className="object-cover object-center rounded border border-gray-200" src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg" />
+                            <div className='flex flex-wrap mt-[20px]'>
+                                <img alt="ecommerce" className="w-1/2 object-cover object-center rounded border border-gray-200" src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg" />
+                                <img alt="ecommerce" className="w-1/2 object-cover object-center rounded border border-gray-200" src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg" />
+                                <img alt="ecommerce" className="w-1/2 object-cover object-center rounded border border-gray-200" src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg" />
+                                <img alt="ecommerce" className="w-1/2 object-cover object-center rounded border border-gray-200" src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg" />
+                            </div>
+                        </div>
+
                         <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
                             <h2 className="text-sm title-font text-gray-500 tracking-widest">BRAND NAME</h2>
                             <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">The Catcher in the Rye</h1>
@@ -97,7 +106,7 @@ const DetailProduct = () => {
                             <div className="flex">
                                 <span className="title-font font-medium text-2xl text-gray-900">$58.00</span>
                                 <button className="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">Add</button>
-                                
+
                             </div>
                         </div>
                     </div>

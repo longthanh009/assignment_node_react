@@ -11,6 +11,14 @@ export const read = (id : any) =>{
 };
 export const remove = (id :any) =>{
     const url = `/product/${id}`;
+    return instance.delete(url)
+};
+export const productCate = (id : any) =>{
+    const url=`/products/ct=${id}`;
+    return instance.get(url)
+};
+export const likeNamePro = (keyword : any) =>{
+    const url=`/products?name=${keyword}`;
     return instance.get(url)
 };
 export const create = (product : productType) =>{

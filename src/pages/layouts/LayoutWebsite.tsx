@@ -7,7 +7,7 @@ const LayoutWebsite = () => {
     return (
         <div>
             <HeaderWebsite/>
-            <main>
+            <main >
                 <Outlet/>
             </main>
             <Footer/>

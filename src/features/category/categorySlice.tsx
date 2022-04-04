@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { create, list, remove, update } from "../../api/categoryApi";
 import { categoryType } from "../../types/categoryType"
+import type { RootState } from "../../app/store";
 
 export const getCategorys = createAsyncThunk("categorys/getCategorys",
     async () => {
@@ -18,7 +19,7 @@ export const removeCategory = createAsyncThunk("categorys/removeCategory",
         return data;
     });
 export const updateCategory = createAsyncThunk("categorys/updateCategory",
-    async (params: string) => {
+    async (params: categoryType) => {
         const { data } = await update(params);
         return data;
     });
@@ -37,7 +38,7 @@ const categorySlice = createSlice({
             (state.loading = false),
                 (state.value = action.payload);
         },
-        [getCategorys.rejected]: (state, action) =>{
+        [getCategorys.rejected]: (state, action) => {
             state.status = action.error;
         },
         [addCategory.fulfilled]: (state, action) => {

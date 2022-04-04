@@ -6,6 +6,7 @@ import cors from "cors";
 import authRouter from "./routes/auth";
 import categoryRouter from "./routes/category";
 import productRouter from "./routes/product"
+import fileRouter from "./routes/file"
 
 const app = express();
 
@@ -17,6 +18,8 @@ app.use(morgan('tiny'));
 app.use("/api", authRouter);
 app.use("/api", categoryRouter);
 app.use("/api", productRouter);
+app.use("/api", fileRouter);
+
 // connect database MongoBb
 mongoose.connect("mongodb://localhost:27017/assignment_web503")
 app.listen(3001, () => {

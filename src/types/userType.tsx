@@ -7,5 +7,7 @@ type login = {
 type signup = {
     username : string,
     email :string,
-    password : string
+    password : string,
+    confirmpassword : string,
+
 }
