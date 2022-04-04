@@ -21,8 +21,6 @@ const CreatProduct = () => {
     const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/df4kjrav4/image/upload"
     const onSubmit: SubmitHandler<productType> = async (data) => {
         const formData = new FormData();
-        // navigate("/admin/products");
-        // console.log(product.payload);
         if (files) {
             let countFile = []
             for (let index = 0; index < files.length; index++) {
@@ -36,15 +34,16 @@ const CreatProduct = () => {
                 countFile.push(image.data.url)
             }
             setNameImg(countFile);
-            const product = await dispatch(createProduct(data));
-            const {_id} = product.payload;
+            const product = await dispatch(createProduct({...data,img: countFile[0]}));
+            const { _id } = product.payload;
             for (let index = 0; index < nameImg.length; index++) {
-                const {data} = await create({
+                const { data } = await create({
                     name: nameImg[index],
-                    productId : _id
+                    productId: _id
                 });
-                console.log(data);
             }
+            alert("Thêm thành công ");
+            navigate("/admin/products");
         }
     }
     const previewImg = (ig: any) => {
