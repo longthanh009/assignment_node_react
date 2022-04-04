@@ -30,7 +30,12 @@ export const updateProduct = createAsyncThunk(
 export const filterProduct = createAsyncThunk(
     "products/filterProducts", async (category: string) => {
         const { data } = await productCate(category)
-        return data 
+        return data
+    });
+export const filterProName = createAsyncThunk(
+    "products/filterProducts", async (keyword: string) => {
+        const { data } = await likeNamePro(keyword)
+        return data
     });
 const productSlice = createSlice({
     name: "products",
@@ -57,6 +62,9 @@ const productSlice = createSlice({
             state.value = state.value.map(item => item._id === action.payload._id ? action.payload : item)
         },
         [filterProduct.fulfilled]: (state, action) => {
+            state.value = action.payload;
+        },
+        [filterProName.fulfilled]: (state, action) => {
             state.value = action.payload;
         },
     }

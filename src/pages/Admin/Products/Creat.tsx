@@ -16,7 +16,6 @@ const CreatProduct = () => {
     const navigate = useNavigate();
     const [categorys, setCategorys] = useState<categoryType[]>([])
     const [files, setFiles] = useState<any>([]);
-    const [nameImg, setNameImg] = useState<any>([]);
     const CLOUDINARY_PRESET = "ha9jmrbt";
     const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/df4kjrav4/image/upload"
     const onSubmit: SubmitHandler<productType> = async (data) => {
@@ -33,14 +32,14 @@ const CreatProduct = () => {
                 });
                 countFile.push(image.data.url)
             }
-            setNameImg(countFile);
             const product = await dispatch(createProduct({...data,img: countFile[0]}));
             const { _id } = product.payload;
-            for (let index = 0; index < nameImg.length; index++) {
+            for (let index = 0; index < countFile.length; index++) {
                 const { data } = await create({
-                    name: nameImg[index],
+                    name: countFile[index],
                     productId: _id
                 });
+                console.log(data);
             }
             alert("Thêm thành công ");
             navigate("/admin/products");

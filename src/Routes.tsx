@@ -5,7 +5,7 @@ import HomePage from './pages/HomePage'
 import LayoutWebsite from './pages/layouts/LayoutWebsite'
 import Signin from './pages/Signin'
 import Signup from './pages/Signup'
-import ShopPage from './pages/Shops'
+import ShopPage from './pages/Shops/Index'
 import DetailProduct from './pages/Shops/Detail'
 import BlogsPage from './pages/Blogs'
 import DetailBlog from './pages/Blogs/Detail'
@@ -31,7 +31,8 @@ function RoutePage() {
                     <Route index element={<HomePage />} />
                     <Route path='/Shops'>
                         <Route index element={<ShopPage />} />
-                        <Route path=':id' element={<DetailProduct />} />
+                        <Route path='product/:id' element={<DetailProduct />} />
+                        <Route path=':id' element={<ShopPage />} />
                     </Route>
                     <Route path='/Blogs'>
                         <Route index element={<BlogsPage />} />

@@ -1,6 +1,27 @@
-import React from 'react'
-
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { read } from '../../api/productApi';
+import { productType } from '../../types/productType';
+import {readImage} from "../../api/fileApi"
 const DetailProduct = () => {
+    const { id } = useParams();
+    const [product, setProduct] = useState<productType>();
+    const [imgs,setImgs]= useState<any>();
+    useEffect(() => {
+        const getProduct = async () => {
+            const {data} = await read(id);
+            setProduct(data);
+        }
+        getProduct();
+    },[]);
+    useEffect(() =>{
+        const getImage = async () =>{
+            const {data} = await readImage(id);
+            setImgs(data)
+            console.log(data);
+        }
+        getImage();
+    },[])
     return (
         <div>
             <nav className="flex lg:mt-[40px] mx-[30px] border-[1px] border-gray-300 px-5" aria-label="Breadcrumb">
@@ -29,18 +50,19 @@ const DetailProduct = () => {
                 <div className="container px-5 py-24 mx-auto">
                     <div className="lg:w-4/5 mx-auto flex flex-wrap">
                         <div className='lg:w-1/2 w-full'>
-                            <img alt="ecommerce" className="object-cover object-center rounded border border-gray-200" src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg" />
+                            <img alt="ecommerce" className="w-full h-[700px] object-cover object-center rounded border border-gray-200" src={product?.img} />
                             <div className='flex flex-wrap mt-[20px]'>
-                                <img alt="ecommerce" className="w-1/2 object-cover object-center rounded border border-gray-200" src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg" />
-                                <img alt="ecommerce" className="w-1/2 object-cover object-center rounded border border-gray-200" src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg" />
-                                <img alt="ecommerce" className="w-1/2 object-cover object-center rounded border border-gray-200" src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg" />
-                                <img alt="ecommerce" className="w-1/2 object-cover object-center rounded border border-gray-200" src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg" />
+                                {imgs?.map((item,index) => {
+                                    return (
+                                        <img key={index} alt="ecommerce" className="w-1/2 object-cover object-center rounded border border-gray-200 h-[300px]" src={item.name} />
+                                    )
+                                })}
                             </div>
                         </div>
 
                         <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
                             <h2 className="text-sm title-font text-gray-500 tracking-widest">BRAND NAME</h2>
-                            <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">The Catcher in the Rye</h1>
+                            <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">{product?.name}</h1>
                             <div className="flex mb-4">
                                 <span className="flex items-center">
                                     <svg fill="currentColor" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} className="w-4 h-4 text-red-500" viewBox="0 0 24 24">
@@ -78,7 +100,7 @@ const DetailProduct = () => {
                                     </a>
                                 </span>
                             </div>
-                            <p className="leading-relaxed">Fam locavore kickstarter distillery. Mixtape chillwave tumeric sriracha taximy chia microdosing tilde DIY. XOXO fam indxgo juiceramps cornhole raw denim forage brooklyn. Everyday carry +1 seitan poutine tumeric. Gastropub blue bottle austin listicle pour-over, neutra jean shorts keytar banjo tattooed umami cardigan.</p>
+                            <p className="leading-relaxed">{product?.description}.</p>
                             <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-200 mb-5">
                                 <div className="flex">
                                     <span className="mr-3">Color</span>
@@ -104,7 +126,7 @@ const DetailProduct = () => {
                                 </div>
                             </div>
                             <div className="flex">
-                                <span className="title-font font-medium text-2xl text-gray-900">$58.00</span>
+                                <span className="title-font font-medium text-2xl text-gray-900">$ {product?.price}.00</span>
                                 <button className="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">Add</button>
 
                             </div>

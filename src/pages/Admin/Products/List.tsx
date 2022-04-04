@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { Link, NavLink } from 'react-router-dom';
-import { fetchProducts, filterProduct, removeProduct } from "../../../features/product/productSlice";
+import { fetchProducts, filterProduct, filterProName, removeProduct } from "../../../features/product/productSlice";
 import { productType } from '../../../types/productType';
 import { categoryType } from '../../../types/categoryType';
 import { list } from '../../../api/categoryApi';
-import { read } from '../../../api/fileApi';
 const ListProducts = () => {
     const dispatch = useAppDispatch();
     let products = useAppSelector((state) => state.products.value);
-    const [categorys, setCategorys] = useState<categoryType[]>()
+    const [categorys, setCategorys] = useState<categoryType[]>();
+    const timeRef = useRef(null);
     useEffect(() => {
         const getCategorys = async () => {
             const { data } = await list();
@@ -29,6 +29,14 @@ const ListProducts = () => {
         if (id == "All") dispatch(fetchProducts())
         dispatch(filterProduct(id))
     }
+    const filterSearch = (keyword) =>{
+        if(timeRef.current) {
+            clearTimeout(timeRef.current)
+        }
+        timeRef.current = setTimeout(()=>{
+            dispatch(filterProName(keyword))
+        },500)
+    }
     return (
         <div className="w-full overflow-hidden rounded-lg shadow-xs">
             <div className='flex justify-between mb-[20px]'>
@@ -43,7 +51,7 @@ const ListProducts = () => {
                     })}
                 </select>
                 <div className="w-[400px] flex items-center">
-                    <input type="text" placeholder="Search name product here" className="w-full pr-10 pl-4 py-2 border rounded text-gray-700 focus:outline-none focus:border-purple-600" />
+                    <input type="text" onChange={(e) =>filterSearch(e.target.value)} placeholder="Search name product here" className="w-full pr-10 pl-4 py-2 border rounded text-gray-700 focus:outline-none focus:border-purple-600" />
                     <svg className="w-4 h-4 fill-current text-gray-500 -ml-8 z-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black"><path d="M0 0h24v24H0V0z" fill="none" /><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" /></svg>
                 </div>
             </form>

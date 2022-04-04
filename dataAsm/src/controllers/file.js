@@ -27,7 +27,7 @@ export const list = async (req, res) => {
 export const read = async (req, res) => {
     const condistion = { productId: req.params.id }
     try {
-        const file = await File.findOne(condistion).exec();
+        const file = await File.find(condistion).exec();
         res.status(200).json(file)
     } catch (error) {
         res.status(401).json({

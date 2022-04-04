@@ -1,14 +1,28 @@
 import React, { useEffect } from 'react'
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { getCategorys } from '../../features/category/categorySlice';
+import { fetchProducts, filterProduct } from '../../features/product/productSlice';
 
 const ShopPage = () => {
     const dispatch = useAppDispatch();
     const categorys = useAppSelector(state => state.categorys.value);
+    const products = useAppSelector(state => state.products.value);
     useEffect(() => {
         dispatch(getCategorys())
-    })
+    }, [])
+    useEffect(() => {
+        dispatch(fetchProducts())
+    }, [])
+    const fiterPro = () => {
+        const { id } = useParams();
+        console.log(id);
+        // if (!id) {
+        //     dispatch(fetchProducts())
+        // } else {
+        //     dispatch(filterProduct(id))
+        // }
+    }
     return (
         <div>
             <nav className="flex lg:mt-[40px] mx-[30px] border-[1px] border-gray-300 px-5" aria-label="Breadcrumb">
@@ -41,13 +55,18 @@ const ShopPage = () => {
                         </div>
                         <ul className="space-y-2">
                             <h2 className='text-[20px] mb-[20px] font-extrabold'>Categoryes</h2>
-                            {categorys?.map((item,index) =>{
+                            <li>
+                                <NavLink to={`/Shops`} className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white active:bg-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                    <span className="flex-1 ml-3 whitespace-nowrap">ALL</span>
+                                </NavLink>
+                            </li>
+                            {categorys?.map((item, index) => {
                                 return (
                                     <li key={index}>
-                                    <NavLink to={`/Shops/ct=${item._id}`} className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white active:bg-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700">
-                                        <span className="flex-1 ml-3 whitespace-nowrap">{item.name}</span>
-                                    </NavLink>
-                                </li>
+                                        <NavLink to={`/Shops/${item._id}`} className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white active:bg-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                            <span className="flex-1 ml-3 whitespace-nowrap">{item.name}</span>
+                                        </NavLink>
+                                    </li>
                                 )
                             })}
                         </ul>
@@ -57,34 +76,17 @@ const ShopPage = () => {
                     <div className="bg-white">
                         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
                             <div className="grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-2 xl:gap-x-8">
-                                <a href="#" className="group">
-                                    <div className="w-full aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-8">
-                                        <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg" alt="Tall slender porcelain bottle with natural clay textured body and cork stopper." className="w-full h-full object-center object-cover group-hover:opacity-75" />
-                                    </div>
-                                    <h3 className="mt-4 text-sm text-gray-700">Earthen Bottle</h3>
-                                    <p className="mt-1 text-lg font-medium text-gray-900">$48</p>
-                                </a>
-                                <a href="#" className="group">
-                                    <div className="w-full aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-8">
-                                        <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-02.jpg" alt="Olive drab green insulated bottle with flared screw lid and flat top." className="w-full h-full object-center object-cover group-hover:opacity-75" />
-                                    </div>
-                                    <h3 className="mt-4 text-sm text-gray-700">Nomad Tumbler</h3>
-                                    <p className="mt-1 text-lg font-medium text-gray-900">$35</p>
-                                </a>
-                                <a href="#" className="group">
-                                    <div className="w-full aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-8">
-                                        <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-02.jpg" alt="Olive drab green insulated bottle with flared screw lid and flat top." className="w-full h-full object-center object-cover group-hover:opacity-75" />
-                                    </div>
-                                    <h3 className="mt-4 text-sm text-gray-700">Nomad Tumbler</h3>
-                                    <p className="mt-1 text-lg font-medium text-gray-900">$35</p>
-                                </a>
-                                <a href="#" className="group">
-                                    <div className="w-full aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-8">
-                                        <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-02.jpg" alt="Olive drab green insulated bottle with flared screw lid and flat top." className="w-full h-full object-center object-cover group-hover:opacity-75" />
-                                    </div>
-                                    <h3 className="mt-4 text-sm text-gray-700">Nomad Tumbler</h3>
-                                    <p className="mt-1 text-lg font-medium text-gray-900">$35</p>
-                                </a>
+                                {products?.map((item, index) => {
+                                    return (
+                                        <Link key={index} to={`/Shops/product/${item._id}`} className="group">
+                                            <div className="w-full md:h-[500px] aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-8">
+                                                <img src={item.img} alt="Tall slender porcelain bottle with natural clay textured body and cork stopper." className="w-full h-full object-center object-cover group-hover:opacity-75" />
+                                            </div>
+                                            <h3 className="mt-4 text-sm text-gray-700">{item.name}</h3>
+                                            <p className="mt-1 text-lg font-medium text-gray-900">$ {item.price}</p>
+                                        </Link>
+                                    )
+                                })}
                             </div>
 
                         </div>
