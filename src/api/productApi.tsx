@@ -21,6 +21,10 @@ export const likeNamePro = (keyword : any) =>{
     const url=`/products?name=${keyword}`;
     return instance.get(url)
 };
+export const productPrice = (price : number) =>{
+    const url=`/products?price=${price}`;
+    return instance.get(url)
+};
 export const create = (product : productType) =>{
     const url = "/products";
     return instance.post(url,product)

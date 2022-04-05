@@ -1,27 +1,43 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Link, NavLink, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { getCategorys } from '../../features/category/categorySlice';
-import { fetchProducts, filterProduct } from '../../features/product/productSlice';
+import { fetchProducts, filterProduct, filterProName, filterProPrice } from '../../features/product/productSlice';
 
 const ShopPage = () => {
+    const { id } = useParams(null);
     const dispatch = useAppDispatch();
     const categorys = useAppSelector(state => state.categorys.value);
     const products = useAppSelector(state => state.products.value);
+    const timeClearRef = useRef(null);
+    const clearPrice = useRef(null);
+
     useEffect(() => {
         dispatch(getCategorys())
     }, [])
     useEffect(() => {
-        dispatch(fetchProducts())
-    }, [])
-    const fiterPro = () => {
-        const { id } = useParams();
-        console.log(id);
-        // if (!id) {
-        //     dispatch(fetchProducts())
-        // } else {
-        //     dispatch(filterProduct(id))
-        // }
+        if (!id) {
+            dispatch(fetchProducts())
+        } else {
+            dispatch(filterProduct(id))
+        }
+    }, [id]);
+    const searchName = (keyword :string) => {
+        if (timeClearRef.current) {
+            clearTimeout(timeClearRef.current)
+        };
+        timeClearRef.current = setTimeout(() => {
+            dispatch(fetchProducts());
+            dispatch(filterProName(keyword))
+        }, 300)
+    }
+    const searchPrice = (price :number) => {
+        if (clearPrice.current) {
+            clearTimeout(clearPrice.current)
+        };
+        clearPrice.current = setTimeout(() => {
+            dispatch(filterProPrice(price))
+        }, 500)
     }
     return (
         <div>
@@ -50,7 +66,7 @@ const ShopPage = () => {
                                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                     <svg className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" /></svg>
                                 </div>
-                                <input type="text" id="form-search" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-none" placeholder="Search name product" />
+                                <input onChange={(e) => searchName(e.target.value)} type="text" id="form-search" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-none" placeholder="Search name product" />
                             </div>
                         </div>
                         <ul className="space-y-2">
@@ -70,6 +86,17 @@ const ShopPage = () => {
                                 )
                             })}
                         </ul>
+                        <div className="relative pt-1 mt-[40px]">
+                            <h2 className="form-label font-bold">Price</h2>
+                            <br />
+                            <div className='flex justify-start items-center'>
+                                <label htmlFor="" className='mr-[10px]'>$100</label>
+                                <input defaultValue={1} onChange={(e) =>{
+                                    searchPrice(+e.target.value*50);
+                                }} type="range" className=" form-range appearance-none w-[60%] h-[3px] p-0 bg-slate-500 focus:outline-none focus:ring-0 focus:shadow-none" id="customRange1" />
+                                <label htmlFor="" className='ml-[10px]'>$5000</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div className='w-[68%]'>

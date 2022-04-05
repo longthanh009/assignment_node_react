@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { create, likeNamePro, list, productCate, read, remove, update } from "../../api/productApi"
+import { create, likeNamePro, list, productCate, productPrice, read, remove, update } from "../../api/productApi"
 import { productType } from "../../types/productType";
 
 export const fetchProducts = createAsyncThunk(
@@ -33,8 +33,13 @@ export const filterProduct = createAsyncThunk(
         return data
     });
 export const filterProName = createAsyncThunk(
-    "products/filterProducts", async (keyword: string) => {
+    "products/filterProName", async (keyword: string) => {
         const { data } = await likeNamePro(keyword)
+        return data
+    });
+export const filterProPrice = createAsyncThunk(
+    "products/filterProPrice", async (price: number) => {
+        const { data } = await productPrice(price)
         return data
     });
 const productSlice = createSlice({
@@ -65,6 +70,11 @@ const productSlice = createSlice({
             state.value = action.payload;
         },
         [filterProName.fulfilled]: (state, action) => {
+            // const products = action.payload.filter(item => item.category === state.value[0].category)
+            // console.log(products);
+            state.value = action.payload;
+        },
+        [filterProPrice.fulfilled]: (state, action) => {
             state.value = action.payload;
         },
     }

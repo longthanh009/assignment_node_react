@@ -12,15 +12,45 @@ export const creat = async (req, res) => {
     }
 }
 export const getAll = async (req, res) => {
-    if (req.query.name) {
-        const search = req.query.name
-        try {
-            const products = await Product.find({ name: new RegExp(search, 'i') }).exec();
-            res.status(200).json(products)
-        } catch (error) {
-            res.status(401).json({
-                message: "Lỗi , không lấy được sản phẩm"
-            })
+    let { name, price, page, _limit } = req.query
+    if (name || price || (page && _limit)) {
+        console.log("abc");
+        const { name } = req.query;
+        const { price } = req.query;
+        if (name) {
+            try {
+                const products = await Product.find({ name: new RegExp(name, 'i') }).exec();
+                res.status(200).json(products)
+            } catch (error) {
+                res.status(401).json({
+                    message: "Lỗi , không lấy được sản phẩm"
+                })
+            }
+        }
+        if (price) {
+            try {
+                const products = await Product.find({ price: { $gt: price } }).exec();
+                res.status(200).json(products)
+            } catch (error) {
+                res.status(401).json({
+                    message: "Lỗi , không lấy được sản phẩm"
+                })
+            }
+        }
+        if (page && _limit) {
+            if (+page < 1) {
+                page = 1
+            }
+            const page_size = +_limit;
+            const statr = ((+page - 1) * + page_size);
+            try {
+                const products = await Product.find().skip(statr).limit(page_size).exec();
+                res.status(200).json(products)
+            } catch (error) {
+                res.status(401).json({
+                    message: "Lỗi , không lấy được sản phẩm"
+                })
+            }
         }
     } else {
         try {

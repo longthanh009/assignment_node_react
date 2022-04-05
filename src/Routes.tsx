@@ -13,15 +13,12 @@ import CartPage from './pages/Checkout/Cart'
 import CheckoutPage from './pages/Checkout/Checkout'
 import LayoutAdmin from './pages/layouts/LayoutAdmin'
 import Dashboard from './pages/Admin/Dashboard'
-import axios from 'axios'
 import ListCate from './pages/Admin/Category/List'
 import CreatCategory from './pages/Admin/Category/Created'
-import { useDispatch, useSelector } from 'react-redux'
 import UpdateCategory from './pages/Admin/Category/Update'
 import ListProducts from './pages/Admin/Products/List'
 import CreatProduct from './pages/Admin/Products/Creat'
 import UpdateProduct from './pages/Admin/Products/Update'
-
 
 function RoutePage() {
     return (
