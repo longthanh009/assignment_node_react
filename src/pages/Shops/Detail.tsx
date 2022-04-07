@@ -2,26 +2,38 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { read } from '../../api/productApi';
 import { productType } from '../../types/productType';
-import {readImage} from "../../api/fileApi"
+import { readImage } from "../../api/fileApi";
+import { useAppDispatch,useAppSelector } from '../../app/hooks';
+import { addItem } from '../../features/cart/cartSilce';
 const DetailProduct = () => {
     const { id } = useParams();
     const [product, setProduct] = useState<productType>();
-    const [imgs,setImgs]= useState<any>();
+    const [imgs, setImgs] = useState<any>();
+    const [quantity, setQuantity] = useState<number>(1);
+    const dispatch = useAppDispatch();
     useEffect(() => {
         const getProduct = async () => {
-            const {data} = await read(id);
+            const { data } = await read(id);
             setProduct(data);
         }
         getProduct();
-    },[]);
-    useEffect(() =>{
-        const getImage = async () =>{
-            const {data} = await readImage(id);
+    }, []);
+    useEffect(() => {
+        const getImage = async () => {
+            const { data } = await readImage(id);
             setImgs(data)
-            console.log(data);
         }
         getImage();
-    },[])
+    }, [])
+    const addItemToCart = () => {
+        dispatch(addItem({
+            _id : product?._id,
+            name: product?.name,
+            img : product?.img,
+            price : product?.price,
+            quantity: quantity
+        }))
+    }
     return (
         <div>
             <nav className="flex lg:mt-[40px] mx-[30px] border-[1px] border-gray-300 px-5" aria-label="Breadcrumb">
@@ -52,7 +64,7 @@ const DetailProduct = () => {
                         <div className='lg:w-1/2 w-full'>
                             <img alt="ecommerce" className="w-full h-[700px] object-cover object-center rounded border border-gray-200" src={product?.img} />
                             <div className='flex flex-wrap mt-[20px]'>
-                                {imgs?.map((item,index) => {
+                                {imgs?.map((item, index) => {
                                     return (
                                         <img key={index} alt="ecommerce" className="w-1/2 object-cover object-center rounded border border-gray-200 h-[300px]" src={item.name} />
                                     )
@@ -109,25 +121,20 @@ const DetailProduct = () => {
                                     <button className="border-2 border-gray-300 ml-1 bg-red-500 rounded-full w-6 h-6 focus:outline-none" />
                                 </div>
                                 <div className="flex ml-6 items-center">
-                                    <span className="mr-3">Size</span>
-                                    <div className="relative">
-                                        <select className="rounded border appearance-none border-gray-400 py-2 focus:outline-none focus:border-red-500 text-base pl-3 pr-10">
-                                            <option>SM</option>
-                                            <option>M</option>
-                                            <option>L</option>
-                                            <option>XL</option>
-                                        </select>
-                                        <span className="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
-                                            <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} className="w-4 h-4" viewBox="0 0 24 24">
-                                                <path d="M6 9l6 6 6-6" />
-                                            </svg>
-                                        </span>
+                                    <span className="mr-3">Quantity</span>
+                                    <div className="">
+                                        <input min={1} onChange={(e) =>{
+                                            setQuantity(+e.target.value)
+                                        }} defaultValue={1} type="number" className="w-[80px] rounded border appearance-none border-gray-400 py-2 focus:outline-none focus:border-red-500 text-base pl-3 pr-[5px]">
+                                        </input>
                                     </div>
                                 </div>
                             </div>
                             <div className="flex">
                                 <span className="title-font font-medium text-2xl text-gray-900">$ {product?.price}.00</span>
-                                <button className="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">Add</button>
+                                <button onClick={() => {
+                                    addItemToCart()
+                                }} className="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">ADD</button>
 
                             </div>
                         </div>
