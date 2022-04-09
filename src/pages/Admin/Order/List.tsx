@@ -64,6 +64,7 @@ const ListOrder = () => {
                                         <select onChange={(e) => {
                                             handlerOnchane({ status: e.target.value }, item._id)
                                         }} className="w-[150px] mr-[20px] border bg-white rounded px-3 py-2 outline-none">
+                                            
                                             <option className="py-1" value={0} >--Chưa xác nhận</option>
                                             <option className="py-1" value={1} >--Đã gửi hàng</option>
                                             <option className="py-1" value={2} >--Giao hàng thành công</option>

@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
 const cartSilce = createSlice({
@@ -30,13 +30,13 @@ const cartSilce = createSlice({
             };
             state.total = total;
         },
-        removeItem: (state, action) => {
+        removeItem: (state, action: PayloadAction) => {
             state.items = state.items.filter(item => item._id !== action.payload);
         },
-        increaseQuantity: (state, action) => {
+        increaseQuantity: (state, action: PayloadAction) => {
             state.items.find((item) => item._id == action.payload).quantity++;
         },
-        decreaseQuantity: (state, action) => {
+        decreaseQuantity: (state, action: PayloadAction) => {
             state.items.find((item) => item._id == action.payload).quantity--;
         }
     },
