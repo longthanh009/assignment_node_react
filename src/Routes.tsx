@@ -19,6 +19,10 @@ import UpdateCategory from './pages/Admin/Category/Update'
 import ListProducts from './pages/Admin/Products/List'
 import CreatProduct from './pages/Admin/Products/Creat'
 import UpdateProduct from './pages/Admin/Products/Update'
+import PrivateRouter from './components/PrivateRouter'
+import PrivateCheckout from './components/PrivateCheckout'
+import ListOrder from './pages/Admin/Order/List'
+import DetailOrder from './pages/Admin/Order/Detail'
 
 function RoutePage() {
     return (
@@ -37,10 +41,10 @@ function RoutePage() {
                     </Route>
                     <Route path='/Cart' >
                         <Route index element={<CartPage />} />
-                        <Route path='Checkout' element={<CheckoutPage />} />
+                        <Route path='Checkout' element={<PrivateCheckout><CheckoutPage /></PrivateCheckout>} />
                     </Route>
                 </Route>
-                <Route path='admin' element={<LayoutAdmin />}>
+                <Route path='admin' element={<PrivateRouter><LayoutAdmin /></PrivateRouter> }>
                     <Route index element={<Navigate to="Dashboard" />} />
                     <Route path='Dashboard' element={<Dashboard />} />
                     <Route path='categorys'>
@@ -52,6 +56,10 @@ function RoutePage() {
                         <Route index element={<ListProducts />} />
                         <Route path='create' element={<CreatProduct />} />
                         <Route path=':id/edit' element={<UpdateProduct />} />
+                    </Route>
+                    <Route path='orders'>
+                        <Route index element={<ListOrder />} />
+                        <Route path=':id/detail' element={<DetailOrder />} />
                     </Route>
                 </Route>
                 <Route path='signin' element={<Signin />} />

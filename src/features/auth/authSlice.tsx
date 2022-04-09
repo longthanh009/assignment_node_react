@@ -4,13 +4,12 @@ import { userType } from "../../types/userType";
 export const login = createAsyncThunk(
     "auth/login", async (formData: userType) => {
         const {data}= await signin(formData);
-        console.log(data);
-        // return data
+        return data
     });
 const authSlice = createSlice({
     name: "auth",
     initialState: {
-        inforUser: {},
+        inforUser: [],
         loading: false,
         message : ""
     },
@@ -22,11 +21,9 @@ const authSlice = createSlice({
         [login.fulfilled]: (state, action) => {
             state.loading = false;
             state.inforUser = action.payload;
+            // console.log(state.inforUser);
         },[login.rejected]: (state, action) => {
             state.loading = false;
-            // state.message = action.payload;
-            console.log(action.payload);
-            
         }
     }
 })

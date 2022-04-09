@@ -9,7 +9,11 @@ const Signin = () => {
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors }, reset } = useForm<userType>();
     const onSubmit: SubmitHandler<userType> = async (data) => {
-            const user=  await dispatch(login(data))
+        const { payload } = await dispatch(login(data));
+        if (payload) {
+            alert("Đăng nhập thành công.")
+            navigate("/")
+        }
     }
     return (
         <div className="w-full flex flex-wrap">

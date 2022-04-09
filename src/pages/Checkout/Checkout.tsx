@@ -1,6 +1,32 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
+import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import { getTotalItems } from "../../features/cart/cartSilce";
+import { useForm, SubmitHandler } from "react-hook-form"
+import { createOrder } from "../../api/orderApi";
+import { createOrderDetail } from "../../api/orderDetailApi";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 const CheckoutPage = () => {
+    const navigate = useNavigate()
+    const price = useAppSelector(state => state.cart.total);
+    const user = useAppSelector(state => state.auth.inforUser.user);
+    var itemsCart = useAppSelector(state => state.cart.items)
+    const dispatch = useAppDispatch();
+    const [total, setTotal] = useState(0);
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<any>();
+    useEffect(() => {
+        dispatch(getTotalItems())
+        setTotal(price + 10)
+    }, [])
+    const onSubmit: SubmitHandler<any> = async (data) => {
+        console.log({ ...data, total, username: user._id });
+        const order = await createOrder({...data,total,username: user._id});
+        for (let index = 0; index < itemsCart.length; index++) {
+            const orderDetail = await createOrderDetail({...itemsCart[index],order : order.data._id})
+        };
+        toast.success("Order Success");
+        navigate("/Cart")
+    }
     return (
         <div>
             <nav className="flex lg:mt-[40px] mx-[30px] border-[1px] border-gray-300 px-5 mb-[30px]" aria-label="Breadcrumb">
@@ -36,31 +62,32 @@ const CheckoutPage = () => {
                     <div className="flex flex-col md:w-full">
                         <h2 className="mb-4 font-bold md:text-xl text-heading ">Shipping Address
                         </h2>
-                        <form className="justify-center w-full mx-auto" method="post">
+                        <form onSubmit={handleSubmit(onSubmit)} className="justify-center w-full mx-auto" method="post">
                             <div className="">
                                 <div className="mt-4">
                                     <div className="w-full">
                                         <label htmlFor="Email" className="block mb-3 text-sm font-semibold text-gray-500">Name</label>
-                                        <input name="Last Name" type="text" placeholder="Your Name" className="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600" />
+                                        <input {...register("name", { required: true })} type="text" placeholder="Your Name" className="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600" />
                                     </div>
                                 </div>
                                 <div className="mt-4">
                                     <div className="w-full">
                                         <label htmlFor="Email" className="block mb-3 text-sm font-semibold text-gray-500">Number Phone</label>
-                                        <input name="Last Name" type="text" placeholder="Phone" className="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600" />
+                                        <input {...register("phone", { required: true })} type="text" placeholder="Phone" className="w-full px-4 py-3 text-sm border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600" />
                                     </div>
                                 </div>
                                 <div className="mt-4">
                                     <div className="w-full">
                                         <label htmlFor="Address" className="block mb-3 text-sm font-semibold text-gray-500">Address</label>
-                                        <textarea className="w-full px-4 py-3 text-xs border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600" name="Address" cols={20} rows={4} placeholder="Address" defaultValue={""} />
+                                        <textarea {...register("address", { required: true })} className="w-full px-4 py-3 text-xs border border-gray-300 rounded lg:text-sm focus:outline-none focus:ring-1 focus:ring-blue-600" cols={20} rows={4} placeholder="Address" defaultValue={""} />
                                     </div>
                                 </div>
                                 <div className="relative pt-3 xl:pt-6"><label htmlFor="note" className="block mb-3 text-sm font-semibold text-gray-500"> Notes
-                                    (Optional)</label><textarea name="note" className="flex items-center w-full px-4 py-3 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-600" rows={4} placeholder="Notes for delivery" defaultValue={""} />
+                                    (Optional)</label>
+                                    <textarea {...register("notes")} className="flex items-center w-full px-4 py-3 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-600" rows={4} placeholder="Notes for delivery" defaultValue={""} />
                                 </div>
                                 <div className="mt-4">
-                                    <button className="w-full px-6 py-2 text-blue-200 bg-indigo-500 hover:bg-indigo-600">Process</button>
+                                    <button className="w-full px-6 py-2 text-blue-200 bg-indigo-500 hover:bg-indigo-600">ORDER</button>
                                 </div>
                             </div>
                         </form>
@@ -69,49 +96,15 @@ const CheckoutPage = () => {
                         <div className="pt-12 md:pt-0 2xl:ps-4">
                             <h2 className="text-xl font-bold">Order Summary
                             </h2>
-                            <div className="mt-8">
-                                <div className="flex flex-col space-y-4">
-                                    <div className="flex space-x-4">
-                                        <div>
-                                            <img src="https://source.unsplash.com/user/erondu/1600x900" alt="image" className="w-60" />
-                                        </div>
-                                        <div>
-                                            <h2 className="text-xl font-bold">Title</h2>
-                                            <p className="text-sm">Lorem ipsum dolor sit amet, tet</p>
-                                            <span className="text-red-600">Price</span> $20
-                                        </div>
-                                        <div>
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                            </svg>
-                                        </div>
-                                    </div>
-                                    <div className="flex space-x-4">
-                                        <div>
-                                            <img src="https://source.unsplash.com/collection/190727/1600x900" alt="image" className="w-60" />
-                                        </div>
-                                        <div>
-                                            <h2 className="text-xl font-bold">Title</h2>
-                                            <p className="text-sm">Lorem ipsum dolor sit amet, tet</p>
-                                            <span className="text-red-600">Price</span> $20
-                                        </div>
-                                        <div>
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <div className="flex p-4 mt-4">
                                 <h2 className="text-xl font-bold">Description</h2>
                             </div>
                             <div className="flex items-center w-full py-4 text-sm font-semibold border-b border-gray-300 lg:py-5 lg:px-3 text-heading last:border-b-0 last:text-base last:pb-0">
-                                Subtotal<span className="ml-2">$40.00</span></div>
+                                Subtotal<span className="ml-2">${price}</span></div>
                             <div className="flex items-center w-full py-4 text-sm font-semibold border-b border-gray-300 lg:py-5 lg:px-3 text-heading last:border-b-0 last:text-base last:pb-0">
                                 Shipping Tax<span className="ml-2">$10</span></div>
                             <div className="flex items-center w-full py-4 text-sm font-semibold border-b border-gray-300 lg:py-5 lg:px-3 text-heading last:border-b-0 last:text-base last:pb-0">
-                                Total<span className="ml-2">$50.00</span></div>
+                                Total<span className="ml-2">${total}</span></div>
                         </div>
                     </div>
                 </div>

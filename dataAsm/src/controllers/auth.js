@@ -15,12 +15,14 @@ export const signin = async (req, res) => {
         if (!user.authenticate(password)) {
             return res.status(400).json({ message: "Username hoặc Password không chính xác" })
         }
-        const token  = jwt.sign({_id : user._id},"123456a",{expiresIn: "24h"})
+        const token = jwt.sign({ _id: user._id }, "123456a", { expiresIn: "2h" })
         res.status(200).json({
             token,
-            user : {
+            user: {
+                _id: user._id,
                 username,
-                email: user.email
+                email: user.email,
+                role: user.role
             }
         })
     } catch (error) {
@@ -48,7 +50,8 @@ export const signup = async (req, res) => {
         res.status(200).json({
             user: {
                 _id: user._id,
-                role: user.role
+                email,
+                name: user.name
             }
         })
     } catch (error) {

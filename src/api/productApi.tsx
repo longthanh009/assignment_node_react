@@ -1,6 +1,10 @@
 import { productType } from "../types/productType";
 import instance from "./config";
 
+import { useAppSelector } from "../app/hooks";
+
+// const {token , user} = useAppSelector(state => state.auth.inforUser);
+
 export const list = () =>{
     const url = "/products";
     return instance.get(url)
@@ -26,8 +30,12 @@ export const productPrice = (price : number) =>{
     return instance.get(url)
 };
 export const create = (product : productType) =>{
-    const url = "/products";
-    return instance.post(url,product)
+    const url = `/products/${user._id}`;
+    return instance.post(url,product,{
+        headers : {
+            "Authorization" : `Bearer ${token}`
+        }
+    })
 };
 export const update = (product : productType) =>{
     const url = `/product/${product._id}`;

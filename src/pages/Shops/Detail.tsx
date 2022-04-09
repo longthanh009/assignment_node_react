@@ -32,7 +32,8 @@ const DetailProduct = () => {
             img : product?.img,
             price : product?.price,
             quantity: quantity
-        }))
+        }));
+        // alert("Thêm thành công.")
     }
     return (
         <div>
