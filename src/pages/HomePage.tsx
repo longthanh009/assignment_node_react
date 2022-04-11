@@ -14,7 +14,7 @@ const HomePage = () => {
                 {/*Right Col*/}
                 <div className="w-full lg:w-1/2 lg:py-6 text-center">
                     {/*Add your product image here*/}
-                    <img src="https://res.cloudinary.com/df4kjrav4/image/upload/v1644227398/cld-sample.jpg" alt="" />
+                    <img src="https://cdn.tgdd.vn/Files/2020/12/29/1316780/bo-tui-ngay-nhung-tu-the-chup-anh-dep-cho-nam-tu-nhien-202201141535262251.jpg" alt="" />
                 </div>
             </div>
             <div className="bg-white">
