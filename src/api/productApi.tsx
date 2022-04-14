@@ -3,7 +3,8 @@ import instance from "./config";
 
 import { useAppSelector } from "../app/hooks";
 
-// const {token , user} = useAppSelector(state => state.auth.inforUser);
+const local = JSON.parse(JSON.parse(localStorage.getItem("persist:root")).auth) ;
+const {user,token} = local.inforUser
 
 export const list = () =>{
     const url = "/products";
