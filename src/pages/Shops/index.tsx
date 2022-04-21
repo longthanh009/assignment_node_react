@@ -11,7 +11,7 @@ const ShopPage = () => {
     const products = useAppSelector(state => state.products.value);
     const timeClearRef = useRef(null);
     const clearPrice = useRef(null);
-
+    
     useEffect(() => {
         dispatch(getCategorys())
     }, [])
