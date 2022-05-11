@@ -29,7 +29,7 @@ function RoutePage() {
         <div className="App">
             <Routes>
                 <Route path='/' element={<LayoutWebsite />}>
-                    <Route index element={<HomePage />} />
+                    <Route index element={<ShopPage />} />
                     <Route path='/Shops'>
                         <Route index element={<ShopPage />} />
                         <Route path='product/:id' element={<DetailProduct />} />

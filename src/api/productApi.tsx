@@ -2,9 +2,12 @@ import { productType } from "../types/productType";
 import instance from "./config";
 
 import { useAppSelector } from "../app/hooks";
-
-const local = JSON.parse(JSON.parse(localStorage.getItem("persist:root")).auth) ;
+if (localStorage.getItem("persist:root")) {
+    const local = JSON.parse(JSON.parse(localStorage.getItem("persist:root")).auth) ;
 const {user,token} = local.inforUser
+}
+
+
 
 export const list = () =>{
     const url = "/products";
